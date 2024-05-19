@@ -94,7 +94,7 @@
                     y: e.y
                 };
 
-                console.log(JSON.stringify(o, null, 2));
+                return JSON.stringify(o, null, 2);
             }
         };
 
@@ -113,7 +113,7 @@
                 eventObject: serialize(event)
             };
             eventLog.push(logEntry);
-            console.log(logEntry); // Debug log to see events in real-time
+            //console.log(logEntry); // Debug log to see events in real-time
         }
 
         const events = [
