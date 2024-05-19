@@ -102,7 +102,7 @@ var serializeEvent = function(e) {
 
         // Функция для глубокого копирования объекта события
         function serialize(event) {
-            return JSON.retrocycle(event)
+            return serializeEvent(event)
         }
 
         // Функция для логирования события
