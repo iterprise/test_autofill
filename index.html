@@ -12,100 +12,98 @@
     </form>
 
     <script>
-var pathToSelector = function(node) {
-  if (!node || !node.outerHTML) {
-    return null;
-  }
+        var pathToSelector = function(node) {
+            if (!node || !node.outerHTML) {
+                return null;
+            }
 
-  var path;
-  while (node.parentElement) {
-    var name = node.localName;
-    if (!name) break;
-    name = name.toLowerCase();
-    var parent = node.parentElement;
+            var path;
+            while (node.parentElement) {
+                var name = node.localName;
+                if (!name) break;
+                name = name.toLowerCase();
+                var parent = node.parentElement;
 
-    var domSiblings = [];
+                var domSiblings = [];
 
-    if (parent.children && parent.children.length > 0) {
-      for (var i = 0; i < parent.children.length; i++) {
-        var sibling = parent.children[i];
-        if (sibling.localName && sibling.localName.toLowerCase) {
-          if (sibling.localName.toLowerCase() === name) {
-            domSiblings.push(sibling);
-          }
-        }
-      }
-    }
+                if (parent.children && parent.children.length > 0) {
+                    for (var i = 0; i < parent.children.length; i++) {
+                        var sibling = parent.children[i];
+                        if (sibling.localName && sibling.localName.toLowerCase) {
+                            if (sibling.localName.toLowerCase() === name) {
+                                domSiblings.push(sibling);
+                            }
+                        }
+                    }
+                }
 
-    if (domSiblings.length > 1) {
-      name += ':eq(' + domSiblings.indexOf(node) + ')';
-    }
-    path = name + (path ? '>' + path : '');
-    node = parent;
-  }
+                if (domSiblings.length > 1) {
+                    name += ':eq(' + domSiblings.indexOf(node) + ')';
+                }
+                path = name + (path ? '>' + path : '');
+                node = parent;
+            }
 
-  return path;
-};
+            return path;
+        };
 
-// Generate a JSON version of the event.
-var serializeEvent = function(e) {
-  if (e) {
-    var o = {
-      eventName: e.toString(),
-      altKey: e.altKey,
-      bubbles: e.bubbles,
-      button: e.button,
-      buttons: e.buttons,
-      cancelBubble: e.cancelBubble,
-      cancelable: e.cancelable,
-      clientX: e.clientX,
-      clientY: e.clientY,
-      composed: e.composed,
-      ctrlKey: e.ctrlKey,
-      currentTarget: e.currentTarget ? e.currentTarget.outerHTML : null,
-      defaultPrevented: e.defaultPrevented,
-      detail: e.detail,
-      eventPhase: e.eventPhase,
-      fromElement: e.fromElement ? e.fromElement.outerHTML : null,
-      isTrusted: e.isTrusted,
-      layerX: e.layerX,
-      layerY: e.layerY,
-      metaKey: e.metaKey,
-      movementX: e.movementX,
-      movementY: e.movementY,
-      offsetX: e.offsetX,
-      offsetY: e.offsetY,
-      pageX: e.pageX,
-      pageY: e.pageY,
-      path: pathToSelector(e.path && e.path.length ? e.path[0] : null),
-      relatedTarget: e.relatedTarget ? e.relatedTarget.outerHTML : null,
-      returnValue: e.returnValue,
-      screenX: e.screenX,
-      screenY: e.screenY,
-      shiftKey: e.shiftKey,
-      sourceCapabilities: e.sourceCapabilities ? e.sourceCapabilities.toString() : null,
-      target: e.target ? e.target.outerHTML : null,
-      timeStamp: e.timeStamp,
-      toElement: e.toElement ? e.toElement.outerHTML : null,
-      type: e.type,
-      view: e.view ? e.view.toString() : null,
-      which: e.which,
-      x: e.x,
-      y: e.y
-    };
+        // Generate a JSON version of the event.
+        var serializeEvent = function(e) {
+            if (e) {
+                var o = {
+                    eventName: e.toString(),
+                    altKey: e.altKey,
+                    bubbles: e.bubbles,
+                    button: e.button,
+                    buttons: e.buttons,
+                    cancelBubble: e.cancelBubble,
+                    cancelable: e.cancelable,
+                    clientX: e.clientX,
+                    clientY: e.clientY,
+                    composed: e.composed,
+                    ctrlKey: e.ctrlKey,
+                    currentTarget: e.currentTarget ? e.currentTarget.outerHTML : null,
+                    defaultPrevented: e.defaultPrevented,
+                    detail: e.detail,
+                    eventPhase: e.eventPhase,
+                    fromElement: e.fromElement ? e.fromElement.outerHTML : null,
+                    isTrusted: e.isTrusted,
+                    layerX: e.layerX,
+                    layerY: e.layerY,
+                    metaKey: e.metaKey,
+                    movementX: e.movementX,
+                    movementY: e.movementY,
+                    offsetX: e.offsetX,
+                    offsetY: e.offsetY,
+                    pageX: e.pageX,
+                    pageY: e.pageY,
+                    path: pathToSelector(e.path && e.path.length ? e.path[0] : null),
+                    relatedTarget: e.relatedTarget ? e.relatedTarget.outerHTML : null,
+                    returnValue: e.returnValue,
+                    screenX: e.screenX,
+                    screenY: e.screenY,
+                    shiftKey: e.shiftKey,
+                    sourceCapabilities: e.sourceCapabilities ? e.sourceCapabilities.toString() : null,
+                    target: e.target ? e.target.outerHTML : null,
+                    timeStamp: e.timeStamp,
+                    toElement: e.toElement ? e.toElement.outerHTML : null,
+                    type: e.type,
+                    view: e.view ? e.view.toString() : null,
+                    which: e.which,
+                    x: e.x,
+                    y: e.y
+                };
 
-    console.log(JSON.stringify(o, null, 2));
-  }
-};
+                console.log(JSON.stringify(o, null, 2));
+            }
+        };
 
         const eventLog = [];
 
-        // Функция для глубокого копирования объекта события
         function serialize(event) {
-            return serializeEvent(event)
+            return serializeEvent(event);
         }
 
-        // Функция для логирования события
         function logEvent(event) {
             const logEntry = {
                 type: event.type,
@@ -115,10 +113,9 @@ var serializeEvent = function(e) {
                 eventObject: serialize(event)
             };
             eventLog.push(logEntry);
-            //console.log(logEntry);
+            console.log(logEntry); // Debug log to see events in real-time
         }
 
-        // Список всех возможных событий
         const events = [
             'change', 'input', 'focus', 'blur', 'keydown', 'keyup', 'keypress', 
             'click', 'dblclick', 'mousedown', 'mouseup', 'mouseover', 'mouseout', 
@@ -126,23 +123,19 @@ var serializeEvent = function(e) {
             'select', 'compositionstart', 'compositionupdate', 'compositionend'
         ];
 
-        // Выбор элементов input
         const inputElements = document.querySelectorAll('#username, #password');
 
-        // Повесить обработчики на все события для каждого input
         inputElements.forEach(inputElement => {
             events.forEach(eventType => {
                 inputElement.addEventListener(eventType, logEvent);
             });
         });
 
-        // Обработка отправки формы для предложений браузера сохранить данные
         document.getElementById('test-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Предотвращение реального отправления формы для тестирования
+            event.preventDefault();
             alert('Form submitted!');
         });
 
-        // Вывод JSON массива со всей информацией через 2 секунды после загрузки страницы
         setTimeout(() => {
             console.log('Event log:', JSON.stringify(eventLog, null, 2));
         }, 5000);
