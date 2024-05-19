@@ -20,7 +20,8 @@
                 type: event.type,
                 value: event.target.value,
                 isFocused: document.activeElement === event.target,
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
+                eventObject: JSON.stringify(event, Object.getOwnPropertyNames(event))
             };
             eventLog.push(logEntry);
             console.log(logEntry);
