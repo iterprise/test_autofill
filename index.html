@@ -175,33 +175,7 @@ if (typeof JSON.retrocycle !== "function") {
 
         // Функция для глубокого копирования объекта события
         function serialize(event) {
-            const eventObject = {};
-            const keys = Reflect.ownKeys(event);
-
-            keys.forEach(key => {
-                try {
-                    eventObject[key] = event[key];
-                } catch (e) {
-                    eventObject[key] = `Error: ${e.message}`;
-                }
-            });
-
-            let currentObj = event;
-            while (currentObj) {
-                const protoKeys = Reflect.ownKeys(currentObj);
-                protoKeys.forEach(key => {
-                    if (!(key in eventObject)) {
-                        try {
-                            eventObject[key] = currentObj[key];
-                        } catch (e) {
-                            eventObject[key] = `Error: ${e.message}`;
-                        }
-                    }
-                });
-                currentObj = Object.getPrototypeOf(currentObj);
-            }
-
-            return eventObject;
+            JSON.retrocycle(event)
         }
 
         // Функция для логирования события
