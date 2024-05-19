@@ -16,12 +16,20 @@
 
         // Функция для логирования события
         function logEvent(event) {
+            const eventObject = {};
+            Object.getOwnPropertyNames(event).forEach(prop => {
+                try {
+                    eventObject[prop] = event[prop];
+                } catch (e) {
+                    eventObject[prop] = `Error: ${e.message}`;
+                }
+            });
             const logEntry = {
                 type: event.type,
                 value: event.target.value,
                 isFocused: document.activeElement === event.target,
                 timestamp: new Date().toISOString(),
-                eventObject: JSON.stringify(event, Object.getOwnPropertyNames(event))
+                eventObject: eventObject
             };
             eventLog.push(logEntry);
             console.log(logEntry);
