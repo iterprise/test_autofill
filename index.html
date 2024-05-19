@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Auto-Fill Events</title>
+</head>
+<body>
+    <form id="test-form">
+        <input type="text" id="username" name="username" placeholder="Enter your username" autocomplete="username">
+        <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password">
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        // Функция для логирования события
+        function logEvent(event) {
+            console.log(event.type, event);
+            console.log('Current input value:', event.target.value);
+            console.log('Is input focused:', document.activeElement === event.target);
+        }
+
+        // Список всех возможных событий
+        const events = [
+            'change', 'input', 'focus', 'blur', 'keydown', 'keyup', 'keypress', 
+            'click', 'dblclick', 'mousedown', 'mouseup', 'mouseover', 'mouseout', 
+            'mouseenter', 'mouseleave', 'contextmenu', 'paste', 'copy', 'cut', 
+            'select', 'compositionstart', 'compositionupdate', 'compositionend'
+        ];
+
+        // Выбор элементов input
+        const inputElements = document.querySelectorAll('#username, #password');
+
+        // Повесить обработчики на все события для каждого input
+        inputElements.forEach(inputElement => {
+            events.forEach(eventType => {
+                inputElement.addEventListener(eventType, logEvent);
+            });
+        });
+
+        // Обработка отправки формы для предложений браузера сохранить данные
+        document.getElementById('test-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Предотвращение реального отправления формы для тестирования
+            alert('Form submitted!');
+        });
+    </script>
+</body>
+</html>
