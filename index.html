@@ -14,22 +14,33 @@
     <script>
         const eventLog = [];
 
+        // Функция для глубокого копирования объекта события
+        function deepCopyEvent(event) {
+            const eventObject = {};
+            let currentObj = event;
+            while (currentObj) {
+                Object.getOwnPropertyNames(currentObj).forEach(prop => {
+                    if (!(prop in eventObject)) {
+                        try {
+                            eventObject[prop] = currentObj[prop];
+                        } catch (e) {
+                            eventObject[prop] = `Error: ${e.message}`;
+                        }
+                    }
+                });
+                currentObj = Object.getPrototypeOf(currentObj);
+            }
+            return eventObject;
+        }
+
         // Функция для логирования события
         function logEvent(event) {
-            const eventObject = {};
-            Object.getOwnPropertyNames(event).forEach(prop => {
-                try {
-                    eventObject[prop] = event[prop];
-                } catch (e) {
-                    eventObject[prop] = `Error: ${e.message}`;
-                }
-            });
             const logEntry = {
                 type: event.type,
                 value: event.target.value,
                 isFocused: document.activeElement === event.target,
                 timestamp: new Date().toISOString(),
-                eventObject: eventObject
+                eventObject: deepCopyEvent(event)
             };
             eventLog.push(logEntry);
             console.log(logEntry);
